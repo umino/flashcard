@@ -1,0 +1,138 @@
+[
+  {
+    "id": "seed-es-001",
+    "lang": "es",
+    "term": "hola",
+    "meaning": "こんにちは",
+    "example": "Hola, ¿cómo estás?（こんにちは、元気ですか？）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000000000,
+    "updatedAt": 1700000000000
+  },
+  {
+    "id": "seed-es-002",
+    "lang": "es",
+    "term": "gracias",
+    "meaning": "ありがとう",
+    "example": "Muchas gracias.（どうもありがとう。）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000001000,
+    "updatedAt": 1700000001000
+  },
+  {
+    "id": "seed-es-003",
+    "lang": "es",
+    "term": "por favor",
+    "meaning": "お願いします",
+    "example": "Un café, por favor.（コーヒーをください。）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000002000,
+    "updatedAt": 1700000002000
+  },
+  {
+    "id": "seed-es-004",
+    "lang": "es",
+    "term": "lo siento",
+    "meaning": "ごめんなさい",
+    "example": "Lo siento mucho.（本当にごめんなさい。）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000003000,
+    "updatedAt": 1700000003000
+  },
+  {
+    "id": "seed-es-005",
+    "lang": "es",
+    "term": "agua",
+    "meaning": "水",
+    "example": "Quiero agua, por favor.（水をください。）",
+    "tags": ["名詞", "食べ物・飲み物"],
+    "createdAt": 1700000004000,
+    "updatedAt": 1700000004000
+  },
+  {
+    "id": "seed-es-006",
+    "lang": "es",
+    "term": "comer",
+    "meaning": "食べる",
+    "example": "Quiero comer pizza.（ピザが食べたい。）",
+    "tags": ["動詞"],
+    "createdAt": 1700000005000,
+    "updatedAt": 1700000005000
+  },
+  {
+    "id": "seed-es-007",
+    "lang": "es",
+    "term": "buenas noches",
+    "meaning": "おやすみなさい / こんばんは",
+    "example": "Buenas noches a todos.（みなさん、おやすみなさい。）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000006000,
+    "updatedAt": 1700000006000
+  },
+  {
+    "id": "seed-zh-001",
+    "lang": "zh",
+    "term": "你好",
+    "reading": "nǐ hǎo",
+    "meaning": "こんにちは",
+    "example": "你好！很高兴认识你。（こんにちは！はじめまして。）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000010000,
+    "updatedAt": 1700000010000
+  },
+  {
+    "id": "seed-zh-002",
+    "lang": "zh",
+    "term": "谢谢",
+    "reading": "xiè xie",
+    "meaning": "ありがとう",
+    "example": "谢谢你的帮助。（助けてくれてありがとう。）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000011000,
+    "updatedAt": 1700000011000
+  },
+  {
+    "id": "seed-zh-003",
+    "lang": "zh",
+    "term": "对不起",
+    "reading": "duì bu qǐ",
+    "meaning": "ごめんなさい",
+    "example": "对不起，我来晚了。（遅くなってごめんなさい。）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000012000,
+    "updatedAt": 1700000012000
+  },
+  {
+    "id": "seed-zh-004",
+    "lang": "zh",
+    "term": "水",
+    "reading": "shuǐ",
+    "meaning": "水",
+    "example": "请给我一杯水。（水を一杯ください。）",
+    "tags": ["名詞"],
+    "createdAt": 1700000013000,
+    "updatedAt": 1700000013000
+  },
+  {
+    "id": "seed-zh-005",
+    "lang": "zh",
+    "term": "吃饭",
+    "reading": "chī fàn",
+    "meaning": "ご飯を食べる",
+    "example": "我们去吃饭吧。（ご飯を食べに行こう。）",
+    "tags": ["動詞"],
+    "createdAt": 1700000014000,
+    "updatedAt": 1700000014000
+  },
+  {
+    "id": "seed-zh-006",
+    "lang": "zh",
+    "term": "再见",
+    "reading": "zài jiàn",
+    "meaning": "さようなら",
+    "example": "明天见！再见！（また明日！さようなら！）",
+    "tags": ["挨拶"],
+    "createdAt": 1700000015000,
+    "updatedAt": 1700000015000
+  }
+]

@@ -1,0 +1,346 @@
+/* =====================================================
+   CSS 変数・リセット・ベーススタイル
+   ===================================================== */
+:root {
+  --color-bg: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-border: #dee2e6;
+  --color-text: #212529;
+  --color-text-secondary: #6c757d;
+  --color-primary: #4361ee;
+  --color-primary-dark: #3346c0;
+  --color-accent-es: #e9610a;
+  --color-accent-zh: #c0392b;
+  --color-success: #2ecc71;
+  --color-warning: #f39c12;
+  --color-danger: #e74c3c;
+  --color-info: #3498db;
+  --color-again: #e74c3c;
+  --color-hard: #f39c12;
+  --color-good: #2ecc71;
+  --color-easy: #3498db;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-card: 0 2px 12px rgba(0,0,0,.08);
+  --shadow-elevated: 0 8px 32px rgba(0,0,0,.12);
+
+  --nav-height: 64px;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+input, select, textarea { font-family: inherit; }
+
+/* =====================================================
+   レイアウト
+   ===================================================== */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 768px) {
+  .app-layout { flex-direction: row; }
+  .app-main {
+    padding-bottom: 0;
+    padding-left: 220px;
+  }
+}
+
+/* =====================================================
+   ナビゲーション
+   ===================================================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s;
+}
+
+.bottom-nav a.active { color: var(--color-primary); }
+.bottom-nav .nav-icon { font-size: 22px; }
+
+.side-nav { display: none; }
+
+@media (min-width: 768px) {
+  .bottom-nav { display: none; }
+  .side-nav {
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    padding: 24px 16px;
+    z-index: 100;
+    gap: 4px;
+  }
+  .side-nav .nav-logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .side-nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .side-nav a:hover { background: var(--color-bg); color: var(--color-text); }
+  .side-nav a.active { background: #eef1ff; color: var(--color-primary); }
+  .side-nav .nav-icon { font-size: 18px; }
+  .side-nav .nav-spacer { flex: 1; }
+}
+
+/* =====================================================
+   ページコンテナ
+   ===================================================== */
+.page { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+.page-wide { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+
+/* =====================================================
+   カード
+   ===================================================== */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 20px;
+}
+
+/* =====================================================
+   ボタン
+   ===================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--color-primary); color: #fff; }
+.btn-primary:hover { background: var(--color-primary-dark); }
+.btn-outline { background: transparent; border: 2px solid var(--color-border); color: var(--color-text); }
+.btn-outline:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.btn-danger { background: var(--color-danger); color: #fff; }
+.btn-danger:hover { opacity: 0.85; }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+.btn-lg { padding: 14px 28px; font-size: 18px; }
+.btn-block { width: 100%; justify-content: center; }
+
+/* =====================================================
+   フォーム
+   ===================================================== */
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: border-color 0.15s;
+}
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+}
+.textarea { resize: vertical; min-height: 80px; }
+
+/* =====================================================
+   バッジ
+   ===================================================== */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+.badge-es { background: #fff0e6; color: var(--color-accent-es); }
+.badge-zh { background: #fff0f0; color: var(--color-accent-zh); }
+.badge-new { background: #e8f4ff; color: var(--color-info); }
+.badge-learning { background: #fff8e6; color: var(--color-warning); }
+.badge-mature { background: #e8fff0; color: var(--color-success); }
+
+/* =====================================================
+   テーブル（管理画面）
+   ===================================================== */
+.table-container { overflow-x: auto; border-radius: var(--radius-md); box-shadow: var(--shadow-card); background: var(--color-surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead { background: var(--color-bg); }
+th { text-align: left; padding: 12px 14px; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); border-bottom: 2px solid var(--color-border); white-space: nowrap; user-select: none; }
+th.sortable { cursor: pointer; }
+th.sortable:hover { color: var(--color-primary); }
+td { padding: 11px 14px; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--color-bg); }
+.col-actions { white-space: nowrap; display: flex; gap: 6px; }
+
+/* =====================================================
+   ダイアログ
+   ===================================================== */
+.dialog-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; }
+.dialog { background: var(--color-surface); border-radius: var(--radius-md); padding: 28px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-elevated); }
+.dialog-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+.dialog-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+/* =====================================================
+   フラッシュカード
+   ===================================================== */
+.flashcard-wrapper { perspective: 1000px; width: 100%; max-width: 480px; margin: 0 auto; aspect-ratio: 3 / 2; }
+.flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.5s ease; cursor: pointer; }
+.flashcard.flipped { transform: rotateY(180deg); }
+.flashcard-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-elevated); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; text-align: center; gap: 12px; }
+.flashcard-front { background: linear-gradient(135deg, var(--color-primary) 0%, #6c63ff 100%); color: #fff; }
+.flashcard-back { background: var(--color-surface); transform: rotateY(180deg); }
+.flashcard-term { font-size: clamp(28px, 6vw, 56px); font-weight: 700; letter-spacing: -1px; }
+.flashcard-reading { font-size: clamp(16px, 3vw, 24px); opacity: 0.85; }
+.flashcard-meaning { font-size: clamp(22px, 4vw, 40px); font-weight: 700; color: var(--color-text); }
+.flashcard-example { font-size: 14px; color: var(--color-text-secondary); font-style: italic; margin-top: 8px; line-height: 1.6; }
+.flashcard-hint { font-size: 12px; opacity: 0.7; margin-top: 16px; }
+
+/* =====================================================
+   評価ボタン
+   ===================================================== */
+.grade-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 480px; margin: 16px auto 0; }
+.grade-btn { padding: 12px 8px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; color: #fff; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: transform 0.1s, opacity 0.15s; }
+.grade-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+.grade-btn .grade-interval { font-size: 11px; font-weight: 400; opacity: 0.85; }
+.grade-btn-again { background: var(--color-again); }
+.grade-btn-hard  { background: var(--color-hard); }
+.grade-btn-good  { background: var(--color-good); }
+.grade-btn-easy  { background: var(--color-easy); }
+
+/* =====================================================
+   ホーム画面
+   ===================================================== */
+.home-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.home-greeting { font-size: 24px; font-weight: 700; }
+.lang-tabs { display: flex; gap: 8px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 4px; }
+.lang-tab { padding: 6px 16px; border-radius: 4px; font-size: 14px; font-weight: 600; border: none; background: transparent; color: var(--color-text-secondary); transition: all 0.15s; }
+.lang-tab.active-es { background: var(--color-accent-es); color: #fff; }
+.lang-tab.active-zh { background: var(--color-accent-zh); color: #fff; }
+.home-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: var(--color-surface); border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-card); text-align: center; }
+.stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--color-primary); }
+.stat-card .stat-label { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
+.study-start-area { text-align: center; margin: 32px 0; }
+.due-count { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 16px; }
+
+/* =====================================================
+   統計画面
+   ===================================================== */
+.stats-section { margin-bottom: 32px; }
+.stats-section-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--color-text); }
+.mastery-bars { display: flex; flex-direction: column; gap: 10px; }
+.mastery-row { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.mastery-row .mastery-label { width: 70px; flex-shrink: 0; }
+.mastery-row .mastery-bar-wrap { flex: 1; background: var(--color-bg); border-radius: 100px; height: 10px; overflow: hidden; }
+.mastery-row .mastery-bar { height: 100%; border-radius: 100px; transition: width 0.5s; }
+.mastery-row .mastery-count { width: 40px; text-align: right; color: var(--color-text-secondary); font-size: 13px; }
+
+/* =====================================================
+   ストリークバッジ
+   ===================================================== */
+.streak-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #ff6b35, #f7c94b); color: #fff; border-radius: 100px; padding: 6px 14px; font-size: 15px; font-weight: 700; box-shadow: 0 2px 8px rgba(255,107,53,.3); }
+
+/* =====================================================
+   認証UI
+   ===================================================== */
+.auth-section { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-top: 1px solid var(--color-border); margin-top: auto; }
+.auth-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+.auth-name { flex: 1; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* =====================================================
+   学習画面
+   ===================================================== */
+.study-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.study-progress-bar-wrap { flex: 1; height: 8px; background: var(--color-bg); border-radius: 100px; overflow: hidden; }
+.study-progress-bar { height: 100%; background: var(--color-primary); border-radius: 100px; transition: width 0.3s; }
+.study-complete { text-align: center; padding: 60px 20px; }
+.study-complete .complete-icon { font-size: 64px; margin-bottom: 16px; }
+.study-complete h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.study-complete p { color: var(--color-text-secondary); margin-bottom: 24px; }
+
+/* =====================================================
+   検索・ページヘッダー
+   ===================================================== */
+.search-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.search-bar .input { flex: 1; min-width: 180px; }
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.page-title { font-size: 22px; font-weight: 700; }
+.import-export-area { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px; background: var(--color-bg); border-radius: var(--radius-sm); border: 1px solid var(--color-border); }
+
+/* =====================================================
+   ユーティリティ
+   ===================================================== */
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.text-center { text-align: center; }
+.text-sm { font-size: 13px; }
+.text-secondary { color: var(--color-text-secondary); }
+.font-bold { font-weight: 700; }
+.w-full { width: 100%; }
+.empty-state { text-align: center; padding: 60px 20px; color: var(--color-text-secondary); }
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 15px; }

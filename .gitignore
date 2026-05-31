@@ -29,3 +29,6 @@ dist-ssr
 
 # Coverage
 coverage/
+
+# 検証用スクリーンショット
+verify-screenshots/

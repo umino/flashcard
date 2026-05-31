@@ -4,6 +4,7 @@ import StreakBadge from '../components/StreakBadge'
 import ProgressRing from '../components/ProgressRing'
 import { todayProgress } from '../domain/stats'
 import { masteryLevel } from '../domain/srs'
+import { firebaseEnabled } from '../services/firebase'
 
 const DAILY_GOAL = 20
 
@@ -15,6 +16,10 @@ export default function Home() {
   const lang = useStore(s => s.lang)
   const setLang = useStore(s => s.setLang)
   const getDueCount = useStore(s => s.getDueCount)
+  const currentUser = useStore(s => s.currentUser)
+  const login = useStore(s => s.login)
+  const logout = useStore(s => s.logout)
+  const syncing = useStore(s => s.syncing)
   const lapsedCount = cards.filter(c => c.lang === lang && (reviews.get(c.id)?.lapses ?? 0) > 0).length
 
   const dueCount = getDueCount()
@@ -119,6 +124,32 @@ export default function Home() {
           )
         })}
       </div>
+
+      {/* 同期ステータス（モバイル向け・Firebase 有効時のみ） */}
+      {firebaseEnabled && (
+        <div className="card" style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
+          {currentUser ? (
+            <>
+              <div className="auth-avatar">{currentUser.displayName?.[0] ?? '?'}</div>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 13, fontWeight: 600 }}>{currentUser.displayName}</p>
+                <p className="text-sm text-secondary">☁️ 同期中</p>
+              </div>
+              <button className="btn btn-outline btn-sm" onClick={logout}>ログアウト</button>
+            </>
+          ) : (
+            <>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 13, fontWeight: 600 }}>ログインすると同期できます</p>
+                <p className="text-sm text-secondary">PC・スマホで進捗を共有</p>
+              </div>
+              <button className="btn btn-primary btn-sm" onClick={login} disabled={syncing}>
+                {syncing ? '同期中...' : 'Googleでログイン'}
+              </button>
+            </>
+          )}
+        </div>
+      )}
 
       {/* 学習開始 */}
       <div className="study-start-area">

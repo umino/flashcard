@@ -1,7 +1,7 @@
 // =====================================================
 // Firestore 同期（ログイン時のみ使用）
 // =====================================================
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore'
 import { getFirebaseApp, firebaseEnabled } from './firebase'
 import type { AppData } from '../domain/types'
 import { emptyData } from './localStore'
@@ -26,4 +26,17 @@ export async function fetchRemote(uid: string): Promise<AppData> {
 export async function pushRemote(uid: string, data: AppData): Promise<void> {
   if (!firebaseEnabled) return
   await setDoc(userDocRef(uid), data)
+}
+
+/** Firestore をリアルタイム監視（他デバイスの変更を検知） */
+export function subscribeRemote(
+  uid: string,
+  onData: (data: AppData) => void,
+): () => void {
+  if (!firebaseEnabled) return () => {}
+  return onSnapshot(userDocRef(uid), (snap) => {
+    if (snap.exists()) {
+      onData(snap.data() as AppData)
+    }
+  })
 }

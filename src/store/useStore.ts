@@ -9,7 +9,7 @@ import { buildQueue, countDueToday } from '../domain/queue'
 import { loadLocal, saveLocal, mergeData, emptyData } from '../services/localStore'
 import seedData from '../data/seed.json'
 import { subscribeAuthState, signInWithGoogle, signOutUser } from '../services/auth'
-import { fetchRemote, pushRemote } from '../services/sync'
+import { fetchRemote, pushRemote, subscribeRemote } from '../services/sync'
 import type { User } from 'firebase/auth'
 
 interface StoreState {
@@ -181,11 +181,20 @@ export const useStore = create<StoreState>((set, get) => ({
       reviews: new Map(data.reviews.map(r => [r.cardId, r])),
       stats: data.stats,
     })
+
+    // Firestore リアルタイムリスナーの解除関数
+    let unsubRemote: (() => void) | null = null
+
     // 認証状態を監視
     subscribeAuthState(async (user) => {
+      // 前のリスナーがあれば解除
+      unsubRemote?.()
+      unsubRemote = null
+
       if (user) {
         set({ currentUser: user, syncing: true })
         try {
+          // 初回：既存データを取得してマージ
           const remote = await fetchRemote(user.uid)
           const local = {
             cards: get().cards,
@@ -199,11 +208,30 @@ export const useStore = create<StoreState>((set, get) => ({
             stats: merged.stats,
           })
           saveLocal(merged)
+          // 初回マージ結果を Firestore に書き戻す
+          await pushRemote(user.uid, merged)
         } catch (e) {
           console.error('sync error', e)
         } finally {
           set({ syncing: false })
         }
+
+        // リアルタイムリスナーをセット（他デバイスの変更を即時反映）
+        unsubRemote = subscribeRemote(user.uid, (remote) => {
+          const local = {
+            cards: get().cards,
+            reviews: Array.from(get().reviews.values()),
+            stats: get().stats,
+          }
+          const merged = mergeData(local, remote)
+          set({
+            cards: merged.cards,
+            reviews: new Map(merged.reviews.map(r => [r.cardId, r])),
+            stats: merged.stats,
+          })
+          saveLocal(merged)
+          // ここでは pushRemote しない（ループ防止）
+        })
       } else {
         set({ currentUser: null })
       }

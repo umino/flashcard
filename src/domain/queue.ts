@@ -3,6 +3,15 @@
 // =====================================================
 import type { Card, ReviewState, StudyMode } from './types'
 
+function shuffle<T>(arr: T[]): T[] {
+  const result = arr.slice()
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[result[i], result[j]] = [result[j], result[i]]
+  }
+  return result
+}
+
 /** 出題キューを生成する純関数 */
 export function buildQueue(
   cards: Card[],
@@ -15,34 +24,23 @@ export function buildQueue(
   const filtered = lang ? cards.filter(c => c.lang === lang) : cards
 
   if (mode === 'lapses') {
-    // 間違えた単語のみ（lapses > 0 のカード）を lapses 降順
-    return filtered
-      .filter(c => {
+    // 間違えた単語のみ（lapses > 0 のカード）をシャッフルして返す
+    return shuffle(
+      filtered.filter(c => {
         const r = reviews.get(c.id)
         return r !== undefined && r.lapses > 0
-      })
-      .sort((a, b) => {
-        const ra = reviews.get(a.id)!
-        const rb = reviews.get(b.id)!
-        return rb.lapses - ra.lapses
-      })
+      }),
+    )
   }
 
   if (mode === 'all') {
-    // 全カードを lapses 降順 → dueDate 昇順
-    return filtered.sort((a, b) => {
-      const ra = reviews.get(a.id)
-      const rb = reviews.get(b.id)
-      const lapsesA = ra?.lapses ?? 0
-      const lapsesB = rb?.lapses ?? 0
-      if (lapsesB !== lapsesA) return lapsesB - lapsesA
-      return (ra?.dueDate ?? 0) - (rb?.dueDate ?? 0)
-    })
+    // 全カードをシャッフルして返す
+    return shuffle(filtered.slice())
   }
 
   // mode === 'due': 期限切れカードを優先（dueDate ≤ now）
-  // 1. dueDate が今以前のもの → lapses 多い順 → dueDate 古い順
-  // 2. 新規（review なし）→ createdAt 昇順
+  // 1. dueDate が今以前のもの → シャッフル
+  // 2. 新規（review なし）→ シャッフル
   const due: Card[] = []
   const fresh: Card[] = []
 
@@ -55,16 +53,7 @@ export function buildQueue(
     }
   }
 
-  due.sort((a, b) => {
-    const ra = reviews.get(a.id)!
-    const rb = reviews.get(b.id)!
-    if (rb.lapses !== ra.lapses) return rb.lapses - ra.lapses
-    return ra.dueDate - rb.dueDate
-  })
-
-  fresh.sort((a, b) => a.createdAt - b.createdAt)
-
-  return [...due, ...fresh]
+  return [...shuffle(due), ...shuffle(fresh)]
 }
 
 /** 今日の期限切れ枚数を返す（ホーム画面の表示用） */

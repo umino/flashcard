@@ -32,8 +32,8 @@ export default function WordFormDialog({ initial, onSave, onClose }: Props) {
   }
 
   return (
-    <div className="dialog-overlay" onClick={onClose}>
-      <div className="dialog" onClick={e => e.stopPropagation()}>
+    <div className="dialog-overlay" onMouseDown={e => { if (e.target === e.currentTarget) onClose() }}>
+      <div className="dialog">
         <h2 className="dialog-title">{initial?.term ? '単語を編集' : '単語を追加'}</h2>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div className="form-group">
